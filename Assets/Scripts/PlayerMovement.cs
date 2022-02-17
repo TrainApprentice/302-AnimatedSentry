@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         if (cam && (h != 0 || v != 0))
         {
             //WrapAngle();
-            Quaternion targetRot = Quaternion.Euler(0, cam.transform.forward.y, 0);
+            Quaternion targetRot = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0);
             transform.rotation = AnimMath.Ease(transform.rotation, targetRot, .001f);
 
         }
