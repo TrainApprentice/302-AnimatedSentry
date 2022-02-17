@@ -2,21 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Axis
-{
-    Forward,
-    Backward,
-    Right,
-    Left,
-    Up,
-    Down
-}
-
 public class PointAt : MonoBehaviour
 {
-    public Axis orientation;
+    public bool lockAxisX, lockAxisY, lockAxisZ;
+
+
     public PlayerTargeting playerTarget;
     private Quaternion startRot;
+    private Quaternion goalRotation;
 
     // Start is called before the first frame update
     void Start()
@@ -28,36 +21,38 @@ public class PointAt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerTarget.currTarget && playerTarget.playerWantsToAim)
+        TurnTowardTarget();
+    }
+
+    private void TurnTowardTarget()
+    {
+        if (playerTarget.target && playerTarget.playerWantsToAim)
         {
-            Vector3 toTarget = playerTarget.currTarget.transform.position - transform.position;
+            Vector3 toTarget = playerTarget.target.transform.position - transform.position;
+            toTarget.Normalize();
+            Quaternion worldRot = Quaternion.LookRotation(toTarget, Vector3.up);
+            
+            Quaternion localRot = worldRot;
 
-            Vector3 fromVector = Vector3.zero;
-            switch (orientation)
-            {
-                case Axis.Forward:
-                    fromVector = Vector3.forward;
-                    break;
-                case Axis.Backward:
-                    fromVector = Vector3.back;
-                    break;
-                case Axis.Right:
-                    fromVector = Vector3.right;
-                    break;
-                case Axis.Left:
-                    fromVector = Vector3.left;
-                    break;
-                case Axis.Up:
-                    fromVector = Vector3.up;
-                    break;
-                case Axis.Down:
-                    fromVector = Vector3.down;
-                    break;
-            }
+            if(transform.parent) localRot = Quaternion.Inverse(transform.parent.rotation) * worldRot;
+            
 
+            Vector3 euler = localRot.eulerAngles;
 
-            transform.rotation = Quaternion.FromToRotation(fromVector, toTarget);
+            if (lockAxisX) euler.x = 0;
+            if (lockAxisY) euler.y = 0;
+            if (lockAxisZ) euler.z = 0;
+
+            localRot.eulerAngles = euler;
+
+            goalRotation = localRot;
+
+            
         }
-        else transform.rotation = startRot;
+        else goalRotation = startRot;
+
+        Quaternion tempRot = transform.localRotation;
+
+        transform.localRotation = AnimMath.Ease(tempRot, goalRotation, .001f);
     }
 }

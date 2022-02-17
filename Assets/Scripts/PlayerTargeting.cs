@@ -5,13 +5,19 @@ using UnityEngine;
 public class PlayerTargeting : MonoBehaviour
 {
     public float visionRadius = 15f;
-
-    public TargetableObject currTarget { get; private set; }
+    [Range(1, 20)]
+    public int roundsPerSecond = 3;
+    public TargetableObject target { get; private set; }
     public bool playerWantsToAim { get; private set; } = false;
+    public bool playerWantsToAttack { get; private set; } = false;
 
-private List<TargetableObject> validTargets = new List<TargetableObject>();
-    private float cooldownScan = .5f;
-    private float cooldownPick = .5f;
+    public Transform jointShoulderRight, jointShoulderLeft;
+    
+
+    private List<TargetableObject> validTargets = new List<TargetableObject>();
+    private float cooldownScan = 0;
+    private float cooldownPick = 0;
+    private float cooldownAttack = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -23,20 +29,28 @@ private List<TargetableObject> validTargets = new List<TargetableObject>();
     void Update()
     {
         playerWantsToAim = Input.GetMouseButton(1);
+        playerWantsToAttack = Input.GetMouseButton(0);
 
         if (cooldownScan > 0) cooldownScan -= Time.deltaTime;
         if (cooldownPick > 0) cooldownPick -= Time.deltaTime;
+        if (cooldownAttack > 0) cooldownAttack -= Time.deltaTime;
 
         if (playerWantsToAim)
         {
+
+            if(target != null)
+            {
+                if (!CanSeeThing(target)) target = null;
+            }
+
             if(cooldownScan <= 0) ScanForTargets();
             if (cooldownPick <= 0) PickTarget();
         }
         else
         {
-            currTarget = null;
+            target = null;
         }
-        
+        if (playerWantsToAttack) DoAttack();
     }
 
     void ScanForTargets()
@@ -48,20 +62,27 @@ private List<TargetableObject> validTargets = new List<TargetableObject>();
 
         foreach(TargetableObject t in allTargets)
         {
-            Vector3 toTarget = t.transform.position - transform.position;
-            if(toTarget.sqrMagnitude <= visionRadius * visionRadius)
-            {
-                float alignment = Vector3.Dot(transform.forward, toTarget.normalized);
-                if(alignment > .3333f) validTargets.Add(t);
-            }
+            if (CanSeeThing(t)) validTargets.Add(t);
         }
 
 
     }
 
+    private bool CanSeeThing(TargetableObject t)
+    {
+        Vector3 toTarget = t.transform.position - transform.position;
+        if (toTarget.sqrMagnitude > visionRadius * visionRadius) return false;
+        
+        float alignment = Vector3.Dot(transform.forward, toTarget.normalized);
+        if (alignment < .3333f) return false;
+
+        return true;
+        
+    }
+
     void PickTarget()
     {
-        if (currTarget) return;
+        if (target) return;
         float closestDist = visionRadius;
         TargetableObject closestTarget = new TargetableObject();
         foreach(TargetableObject t in validTargets)
@@ -73,6 +94,19 @@ private List<TargetableObject> validTargets = new List<TargetableObject>();
                 closestTarget = t;
             }
         }
-        currTarget = closestTarget;
+        target = closestTarget;
+    }
+
+    void DoAttack()
+    {
+        if (!playerWantsToAim) return;
+        if (target == null) return;
+        if (cooldownAttack > 0) return;
+        if (!CanSeeThing(target)) return;
+
+        cooldownAttack = 1f/roundsPerSecond;
+
+        jointShoulderLeft.localEulerAngles += new Vector3(-20, 0, 0);
+        jointShoulderRight.localEulerAngles += new Vector3(-20, 0, 0);
     }
 }
