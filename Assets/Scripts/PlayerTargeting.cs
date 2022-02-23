@@ -12,7 +12,6 @@ public class PlayerTargeting : MonoBehaviour
     public bool playerWantsToAttack { get; private set; } = false;
 
     public Transform jointShoulderRight, jointShoulderLeft;
-    
 
     private List<TargetableObject> validTargets = new List<TargetableObject>();
     private float cooldownScan = 0;
@@ -108,5 +107,6 @@ public class PlayerTargeting : MonoBehaviour
 
         jointShoulderLeft.localEulerAngles += new Vector3(-20, 0, 0);
         jointShoulderRight.localEulerAngles += new Vector3(-20, 0, 0);
+
     }
 }

@@ -430,6 +430,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9011619303295918291}
+  - component: {fileID: -8111469200849700847}
+  - component: {fileID: 7551819415830260891}
   m_Layer: 0
   m_Name: Sentry
   m_TagString: Untagged
@@ -454,6 +456,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8111469200849700847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9011619303295918288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc94169b46b52b49a1bb8b58e1d515a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7551819415830260891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9011619303295918288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5e8f3ae853d5848910412c8e8d28f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missile: {fileID: 5488395734071937147, guid: f0004705cb574b946bb23b2d23e3bda2, type: 3}
+  reticle: {fileID: 1714039042977170041, guid: 024fe44e239f90647a37f7f4008d4340, type: 3}
+  target: {fileID: 0}
 --- !u!1 &9011619303335488707
 GameObject:
   m_ObjectHideFlags: 0

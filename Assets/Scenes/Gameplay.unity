@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 847218238}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -449,6 +449,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1322349138 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7749478064157973818, guid: 5d9f2948aefb52a429b0987992860ba6, type: 3}
+  m_PrefabInstance: {fileID: 1847043370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1519079303
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +562,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1847043370
 PrefabInstance:
@@ -566,6 +571,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5817884993469613152, guid: 5d9f2948aefb52a429b0987992860ba6, type: 3}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 1422819553416169737, guid: 57be9acd908eb0f4a9e581c2acb110eb, type: 3}
+    - target: {fileID: 2379944105103258858, guid: 5d9f2948aefb52a429b0987992860ba6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7749478064157973818, guid: 5d9f2948aefb52a429b0987992860ba6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -614,6 +627,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7749478064157973819, guid: 5d9f2948aefb52a429b0987992860ba6, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d9f2948aefb52a429b0987992860ba6, type: 3}
 --- !u!1001 &9011619302802015541
@@ -623,6 +640,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7551819415830260891, guid: 07e31b83692890e4c8b062d5f176eb47, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1322349138}
     - target: {fileID: 9011619303295918288, guid: 07e31b83692890e4c8b062d5f176eb47, type: 3}
       propertyPath: m_Name
       value: Sentry
