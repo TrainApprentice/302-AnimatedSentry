@@ -12,6 +12,9 @@ public class CameraController: MonoBehaviour
     public float scrollSensitivity = 1f;
     public Vector3 cameraOffset;
 
+    private float shakeTimer = 0f;
+    private float shakeAmount = 0f;
+
     private Camera cam;
 
     private float pitch = 0, yaw = 0;
@@ -79,22 +82,42 @@ public class CameraController: MonoBehaviour
         if(isAiming)
         {
             Vector3 toAimTarget = player.target.transform.position - cam.transform.position;
+            Quaternion worldRot = Quaternion.LookRotation(toAimTarget);
 
-            Vector3 lookEuler = Quaternion.LookRotation(toAimTarget).eulerAngles;
+            Quaternion localRot = worldRot;
 
-            lookEuler.y = AnimMath.AngleWrapDegrees(playerYaw, lookEuler.y);
+            if(cam.transform.parent)
+            {
+                localRot = Quaternion.Inverse(cam.transform.parent.rotation) * worldRot;
+            }
+            Vector3 euler = localRot.eulerAngles;
+            euler.z = 0;
+            localRot.eulerAngles = euler;
 
-            Quaternion lookTemp = Quaternion.Euler(lookEuler.x, lookEuler.y, 0);
-
-            cam.transform.rotation = AnimMath.Ease(cam.transform.rotation, lookTemp, .001f);
+            cam.transform.localRotation = AnimMath.Ease(cam.transform.localRotation, localRot, .001f);
         }
         else
         {
             cam.transform.localRotation = AnimMath.Ease(cam.transform.localRotation, Quaternion.identity, .001f);
         }
 
-
+        UpdateShake();
 
     }
-   
+    void UpdateShake()
+    {
+        if (shakeTimer < 0) return;
+        shakeTimer -= Time.deltaTime;
+
+        Quaternion randomRot = AnimMath.Lerp(Random.rotation, Quaternion.identity, shakeAmount);
+
+        cam.transform.localRotation *= randomRot;
+        
+    }
+    public void DoShake(float time, float shakeAmt)
+    {
+        if(time > shakeTimer) shakeTimer = time;
+        shakeAmount = shakeAmt;
+    }
+
 }

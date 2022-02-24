@@ -4,24 +4,29 @@ using UnityEngine;
 
 public class PlayerTargeting : MonoBehaviour
 {
-    public float visionRadius = 15f;
+    public float visionRadius = 100f;
     [Range(1, 20)]
     public int roundsPerSecond = 3;
     public TargetableObject target { get; private set; }
     public bool playerWantsToAim { get; private set; } = false;
     public bool playerWantsToAttack { get; private set; } = false;
 
-    public Transform jointShoulderRight, jointShoulderLeft;
+    public PointAt jointShoulderRight, jointShoulderLeft, jointNeck;
+
+   
 
     private List<TargetableObject> validTargets = new List<TargetableObject>();
     private float cooldownScan = 0;
     private float cooldownPick = 0;
     private float cooldownAttack = 0;
 
+    private CameraController cam;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Confined;
+        cam = FindObjectOfType<CameraController>();
     }
 
     // Update is called once per frame
@@ -39,7 +44,9 @@ public class PlayerTargeting : MonoBehaviour
 
             if(target != null)
             {
-                if (!CanSeeThing(target)) target = null;
+                Vector3 toTarget = target.transform.position - transform.position;
+                toTarget.y = 0;
+                if (!CanSeeThing(target) && toTarget.magnitude > 5) target = null;
             }
 
             if(cooldownScan <= 0) ScanForTargets();
@@ -49,7 +56,14 @@ public class PlayerTargeting : MonoBehaviour
         {
             target = null;
         }
+
+        if(jointShoulderLeft) jointShoulderLeft.target = (target) ? target.transform : null;
+        if(jointShoulderRight) jointShoulderRight.target = (target) ? target.transform : null;
+        if(jointNeck) jointNeck.target = (target) ? target.transform : null;
+
         if (playerWantsToAttack) DoAttack();
+
+
     }
 
     void ScanForTargets()
@@ -74,6 +88,18 @@ public class PlayerTargeting : MonoBehaviour
         
         float alignment = Vector3.Dot(transform.forward, toTarget.normalized);
         if (alignment < .3333f) return false;
+
+        Ray ray = new Ray();
+        ray.origin = transform.position;
+        ray.direction = toTarget;
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit, visionRadius))
+        { 
+            if (!hit.collider.CompareTag("Enemy")) return false;
+        }
+        
 
         return true;
         
@@ -105,8 +131,10 @@ public class PlayerTargeting : MonoBehaviour
 
         cooldownAttack = 1f/roundsPerSecond;
 
-        jointShoulderLeft.localEulerAngles += new Vector3(-20, 0, 0);
-        jointShoulderRight.localEulerAngles += new Vector3(-20, 0, 0);
+        jointShoulderLeft.transform.localEulerAngles += new Vector3(-20, 0, 0);
+        jointShoulderRight.transform.localEulerAngles += new Vector3(-20, 0, 0);
 
+        target.ApplyDamage(2);
+        cam.DoShake(.3f, .999f);
     }
 }

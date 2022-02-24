@@ -10,11 +10,17 @@ public class PlayerMovement : MonoBehaviour
     CharacterController pawn;
     private float speed = 7f;
 
-    public Transform jointHipLeft, jointHipRight, jointKneeLeft, jointKneeRight;
+    public Transform jointHips, jointHipLeft, jointHipRight, jointKneeLeft, jointKneeRight;
+    public Transform jointSpine, jointNeck, jointHairLeft, jointHairRight;
+    public Transform jointShoulderLeft, jointShoulderRight, jointElbowLeft, jointElbowRight;
+    PlayerTargeting playerTargeting;
+
+
     float walkAnimTimer = 0f;
+    float idleAnimTimer = 0f;
+    float airAnimTimer = 0f;
     private Vector3 inputDir;
     private float velocityVertical = 0;
-
     private float gravMult = -9.8f;
 
 
@@ -23,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         pawn = GetComponent<CharacterController>();
         cam = FindObjectOfType<CameraController>().gameObject;
+        playerTargeting = GetComponent<PlayerTargeting>();
     }
 
     // Update is called once per frame
@@ -32,9 +39,20 @@ public class PlayerMovement : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
 
-        if (cam && (h != 0 || v != 0))
+        bool playerIsAiming = (playerTargeting && playerTargeting.playerWantsToAim && playerTargeting.target);
+        if(playerIsAiming)
         {
-            //WrapAngle();
+            Vector3 toTarget = playerTargeting.target.transform.position - transform.position;
+            toTarget.Normalize();
+            Quaternion worldRot = Quaternion.LookRotation(toTarget);
+            Vector3 euler = worldRot.eulerAngles;
+            euler.x = 0;
+            euler.z = 0;
+            worldRot.eulerAngles = euler;
+            transform.rotation = AnimMath.Ease(transform.rotation, worldRot, .001f);
+        }
+        else if (cam && (h != 0 || v != 0))
+        {
             float playerYaw = transform.eulerAngles.y;
             float camYaw = cam.transform.eulerAngles.y;
 
@@ -58,15 +76,18 @@ public class PlayerMovement : MonoBehaviour
         }
         velocityVertical += gravMult * Time.deltaTime;
 
-        
+        if (Input.GetKey("left shift")) speed = 12f;
+        else speed = 7f;
 
         Vector3 moveAmt = (inputDir * speed) + (Vector3.up * velocityVertical);
 
 
         pawn.Move(moveAmt * Time.deltaTime);
-        
 
-        WalkAnim();
+
+        if (pawn.isGrounded && inputDir != Vector3.zero) WalkAnim();
+        else if (!pawn.isGrounded) AirAnim();
+        else IdleAnim();
     }
 
     void WalkAnim()
@@ -87,10 +108,68 @@ public class PlayerMovement : MonoBehaviour
         jointHipLeft.localRotation = Quaternion.AngleAxis(waveHip, axis);
         jointHipRight.localRotation = Quaternion.AngleAxis(-waveHip, axis);
 
-        float waveKneeLeft = (inputDir == Vector3.zero) ? 0 : (Mathf.Sin(walkAnimTimer) + 1) * 10;
-        float waveKneeRight = (inputDir == Vector3.zero) ? 0 : (Mathf.Sin(walkAnimTimer + Mathf.PI) + 1) * 10;
+        float waveKneeLeft = (Mathf.Sin(walkAnimTimer) + 1) * 10;
+        float waveKneeRight = (Mathf.Sin(walkAnimTimer + Mathf.PI) + 1) * 10;
 
         jointKneeLeft.localRotation = Quaternion.Euler(waveKneeLeft, 0, 0);
         jointKneeRight.localRotation = Quaternion.Euler(waveKneeRight, 0, 0);
+
+        float waveSpine = Mathf.Cos(walkAnimTimer) * .03f;
+        jointSpine.localPosition = new Vector3(0, waveSpine, 0);
+
+        if(!playerTargeting.target)
+        {
+            float waveShoulder = Mathf.Sin(walkAnimTimer) * 20f;
+
+            jointShoulderLeft.localRotation = Quaternion.Euler(waveShoulder + 90, 0, 0);
+            jointShoulderRight.localRotation = Quaternion.Euler(-waveShoulder + 90, 0, 0);
+
+            float waveElbowLeft = -(Mathf.Sin(walkAnimTimer) + 1) * 10;
+            float waveElbowRight = -(Mathf.Sin(walkAnimTimer + Mathf.PI) + 1) * 10;
+
+            jointElbowLeft.localRotation = Quaternion.Euler(waveElbowLeft, 0, 0);
+            jointElbowRight.localRotation = Quaternion.Euler(waveElbowRight, 0, 0);
+        }
+        else
+        {
+            jointElbowLeft.localRotation = Quaternion.Euler(0, 0, 0);
+            jointElbowRight.localRotation = Quaternion.Euler(0, 0, 0);
+        }
+        
+    }
+
+    void IdleAnim()
+    {
+        idleAnimTimer += Time.deltaTime * 20f;
+        if(!playerTargeting.target)
+        {
+            jointShoulderLeft.localRotation = Quaternion.Euler(90, 0, 0);
+            jointShoulderRight.localRotation = Quaternion.Euler(90, 0, 0);
+
+            float waveShoulders = Mathf.Sin(idleAnimTimer) * .05f;
+            jointShoulderLeft.localPosition = new Vector3(jointShoulderLeft.localPosition.x, waveShoulders + .276f, jointShoulderLeft.localPosition.z);
+            jointShoulderRight.localPosition = new Vector3(jointShoulderRight.localPosition.x, waveShoulders + .276f, jointShoulderRight.localPosition.z);
+        }
+        else
+        {
+            jointShoulderLeft.localPosition = new Vector3(jointShoulderLeft.localPosition.x, .276f, jointShoulderLeft.localPosition.z);
+            jointShoulderRight.localPosition = new Vector3(jointShoulderRight.localPosition.x, .276f, jointShoulderRight.localPosition.z); 
+        }
+        jointElbowLeft.localRotation = Quaternion.Euler(0, 0, 0);
+        jointElbowRight.localRotation = Quaternion.Euler(0, 0, 0);
+        jointKneeLeft.localRotation = Quaternion.Euler(0, 0, 0);
+        jointKneeRight.localRotation = Quaternion.Euler(0, 0, 0);
+        jointHipLeft.localRotation = Quaternion.Euler(0, 0, 0);
+        jointHipRight.localRotation = Quaternion.Euler(0, 0, 0);
+
+
+        float waveSpine = Mathf.Sin(idleAnimTimer) * .03f;
+        jointSpine.localPosition = new Vector3(0, waveSpine, 0);
+
+        
+    }
+    void AirAnim()
+    {
+
     }
 }

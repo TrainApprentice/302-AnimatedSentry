@@ -13,6 +13,7 @@ public class MissileMovement : MonoBehaviour
     private Vector3 direction;
     private float flySpeed = 25f;
     private GameObject currRet;
+    private float lifespan = 5f;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +39,8 @@ public class MissileMovement : MonoBehaviour
     void Update()
     {
         transform.position += direction * flySpeed * Time.deltaTime;
-        
+        if (lifespan > 0) lifespan -= Time.deltaTime;
+        else Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

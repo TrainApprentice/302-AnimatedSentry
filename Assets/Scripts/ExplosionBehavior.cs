@@ -9,11 +9,15 @@ public class ExplosionBehavior : MonoBehaviour
     private float radius;
     private float maxRadius = 15f;
     private Material mat;
+    private CameraController cam;
 
     private void Start()
     {
         mat = GetComponent<MeshRenderer>().material;
         lifespan = maxLife;
+        cam = FindObjectOfType<CameraController>();
+
+        cam.DoShake(.3f, .995f);
     }
 
     private void Update()

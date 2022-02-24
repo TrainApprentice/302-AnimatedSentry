@@ -28,6 +28,8 @@ public static class AnimMath
 
     public static Quaternion Lerp(Quaternion a, Quaternion b, float percent, bool allowExtrapolation = false)
     {
+        b = WrapQuaternion(a, b);
+        
         if (!allowExtrapolation)
         {
             if (percent > 1) percent = 1;
@@ -87,4 +89,18 @@ public static class AnimMath
 
         return angleToWrap;
     }
+    public static Quaternion WrapQuaternion(Quaternion baseAngle, Quaternion angleToWrap)
+    {
+        float alignment = Quaternion.Dot(baseAngle, angleToWrap);
+
+        if(alignment < 0)
+        {
+            angleToWrap.x *= -1;
+            angleToWrap.y *= -1;
+            angleToWrap.z *= -1;
+            angleToWrap.w *= -1;
+        }
+        return angleToWrap;
+    }
+    
 }

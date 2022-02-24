@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class TargetableObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float currHealth, prevHealth, maxHealth;
+    private bool isDead = false;
 
+    private void Start()
+    {
+        currHealth = maxHealth;
+    }
     // Update is called once per frame
     void Update()
     {
-        
+        if (isDead) Destroy(gameObject);
     }
+
+    public void ApplyDamage(int damage)
+    {
+        currHealth -= damage;
+        if (currHealth <= 0) isDead = true;
+    }
+
+    
 }
