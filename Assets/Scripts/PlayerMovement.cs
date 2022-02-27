@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 velocityVertical = 0;
                 airAnimTimer = 0;
-                if (wantsToJump) velocityVertical += 7f;
+                if (wantsToJump) velocityVertical += 9f;
             }
             velocityVertical += gravMult * Time.deltaTime;
 
@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (currDodgeCooldown <= 0)
                 {
-                    speed = 12f;
+                    speed = 20f;
                     storedDirection = inputDir;
                     currDodgeCooldown = .75f;
                     baseDodgeCooldown = currDodgeCooldown;
@@ -229,12 +229,15 @@ public class PlayerMovement : MonoBehaviour
 
         jointHips.localRotation = AnimMath.Ease(jointHips.localRotation, Quaternion.identity, .001f);
 
+        
+
+
         walkAnimTimer = 0f;
     }
     void AirAnim()
     {
-        if (airAnimTimer < 1.4f) airAnimTimer += Time.deltaTime;
-        else airAnimTimer = 1.4f;
+        if (airAnimTimer < 1.8f) airAnimTimer += Time.deltaTime;
+        else airAnimTimer = 1.8f;
 
         Quaternion spineGoal;
         Quaternion neckGoal;
@@ -243,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
         Quaternion hipGoal;
         Quaternion kneesGoal;
 
-        if(airAnimTimer < .7f)
+        if(airAnimTimer < .9f)
         {
             spineGoal = Quaternion.Euler(-15, 0, 0);
             neckGoal = Quaternion.Euler(-20, 0, 0);
@@ -280,11 +283,21 @@ public class PlayerMovement : MonoBehaviour
         jointKneeLeft.localRotation = AnimMath.Ease(jointKneeLeft.localRotation, kneesGoal, .001f);
         jointKneeRight.localRotation = AnimMath.Ease(jointKneeRight.localRotation, kneesGoal, .001f);
 
-        float hairWave = Mathf.Sin(airAnimTimer * 2) * .1f;
-        jointHairLeft.localPosition = new Vector3(jointHairLeft.localPosition.x, .5f + hairWave, jointHairLeft.localPosition.z);
-        jointHairRight.localPosition = new Vector3(jointHairRight.localPosition.x, .5f + hairWave, jointHairRight.localPosition.z);
-
+        if (airAnimTimer < 1.6f)
+        {
+            float hairWave = Mathf.Sin(airAnimTimer * 4) * .1f;
+            jointHairLeft.localPosition = new Vector3(jointHairLeft.localPosition.x, .5f + hairWave, jointHairLeft.localPosition.z);
+            jointHairRight.localPosition = new Vector3(jointHairRight.localPosition.x, .5f + hairWave, jointHairRight.localPosition.z);
+        }
         
+        else
+        {
+            Vector3 resetHairLeft = new Vector3(jointHairLeft.localPosition.x, .55f, jointHairLeft.localPosition.z);
+            Vector3 resetHairRight = new Vector3(jointHairRight.localPosition.x, .55f, jointHairRight.localPosition.z);
+
+            jointHairLeft.localPosition = AnimMath.Ease(jointHairLeft.localPosition, resetHairLeft, .0001f);
+            jointHairRight.localPosition = AnimMath.Ease(jointHairRight.localPosition, resetHairRight, .0001f);
+        }
     }
     void DeathAnim()
     {
