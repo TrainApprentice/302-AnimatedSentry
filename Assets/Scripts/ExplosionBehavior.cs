@@ -31,4 +31,12 @@ public class ExplosionBehavior : MonoBehaviour
 
         if (lifespan <= 0) Destroy(gameObject);
     }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if(collision.CompareTag("Player"))
+        {
+            collision.GetComponent<PlayerMovement>().TakeHit();
+        }
+    }
 }

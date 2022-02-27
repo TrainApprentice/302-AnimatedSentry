@@ -47,6 +47,7 @@ public class MissileMovement : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            other.GetComponent<PlayerMovement>().TakeHit();
             GameObject newExplosion = Instantiate(explosionBase, transform.position, Quaternion.identity);
             Destroy(gameObject);
             if (isRainAttack) Destroy(currRet);
@@ -54,14 +55,12 @@ public class MissileMovement : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
             GameObject newExplosion = Instantiate(explosionBase, contactPoint.position, Quaternion.identity);
             Destroy(gameObject);
             if (isRainAttack) Destroy(currRet);
         }
-        
-        
     }
 
 

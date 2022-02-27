@@ -26,9 +26,9 @@ public static class AnimMath
         return (b - a) * percent + a;
     }
 
-    public static Quaternion Lerp(Quaternion a, Quaternion b, float percent, bool allowExtrapolation = false)
+    public static Quaternion Lerp(Quaternion a, Quaternion b, float percent, bool allowExtrapolation = false, bool doWrap = true)
     {
-        b = WrapQuaternion(a, b);
+        if(doWrap) b = WrapQuaternion(a, b);
         
         if (!allowExtrapolation)
         {
@@ -68,12 +68,12 @@ public static class AnimMath
         return Lerp(current, target, p);
     }
 
-    public static Quaternion Ease(Quaternion current, Quaternion target, float percentLeftAfter1Second, float dt = -1)
+    public static Quaternion Ease(Quaternion current, Quaternion target, float percentLeftAfter1Second, float dt = -1, bool allowExtrapolation = false, bool doWrap = true)
     {
         if (dt < 0) dt = Time.deltaTime;
         float p = 1 - Mathf.Pow(percentLeftAfter1Second, dt);
 
-        return Lerp(current, target, p);
+        return Lerp(current, target, p, allowExtrapolation, doWrap);
     }
     
     /// <summary>
