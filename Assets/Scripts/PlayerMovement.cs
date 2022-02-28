@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform jointShoulderLeft, jointShoulderRight, jointElbowLeft, jointElbowRight;
     public Transform skeletonBase;
     public bool isDead = false;
+    public bool isInvincible = false;
     PlayerTargeting playerTargeting;
 
 
@@ -28,7 +29,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 storedDirection;
     private float velocityVertical = 0;
     private float gravMult = -9.8f;
-    private bool isInvincible = false;
     private bool isGrounded = true;
     private DetachJoint[] allJointDetachScripts;
 
@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
             float h = Input.GetAxisRaw("Horizontal");
 
             bool playerIsAiming = (playerTargeting && playerTargeting.playerWantsToAim && playerTargeting.target);
-            if (playerIsAiming)
+            if (playerIsAiming && currDodgeCooldown <= 0)
             {
                 Vector3 toTarget = playerTargeting.target.transform.position - transform.position;
                 toTarget.Normalize();

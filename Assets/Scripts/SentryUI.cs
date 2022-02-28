@@ -17,11 +17,15 @@ public class SentryUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateHealthBar();
     }
 
     void UpdateHealthBar()
     {
-        //if(healthStorage.currHealth < healthStorage.prevHealth)
+        if(healthStorage.currHealth < healthStorage.prevHealth)
+        {
+            healthStorage.prevHealth = AnimMath.Ease(healthStorage.prevHealth, healthStorage.currHealth, .01f);
+            healthBar.transform.localScale = new Vector3(healthStorage.prevHealth / healthStorage.maxHealth, 1, 1);
+        }
     }
 }

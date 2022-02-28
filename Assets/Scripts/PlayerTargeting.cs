@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerTargeting : MonoBehaviour
 {
-    public float visionRadius = 100f;
+    public float visionRadius = 20f;
     [Range(1, 20)]
     public int roundsPerSecond = 3;
     public TargetableObject target { get; private set; }
@@ -12,7 +12,7 @@ public class PlayerTargeting : MonoBehaviour
     public bool playerWantsToAttack { get; private set; } = false;
 
     public PointAt jointShoulderRight, jointShoulderLeft, jointNeck;
-
+    public PlayerMovement controller;
    
 
     private List<TargetableObject> validTargets = new List<TargetableObject>();
@@ -38,31 +38,32 @@ public class PlayerTargeting : MonoBehaviour
         if (cooldownScan > 0) cooldownScan -= Time.deltaTime;
         if (cooldownPick > 0) cooldownPick -= Time.deltaTime;
         if (cooldownAttack > 0) cooldownAttack -= Time.deltaTime;
-
-        if (playerWantsToAim)
+        if (!controller.isInvincible && !controller.isDead)
         {
-
-            if(target != null)
+            if (playerWantsToAim)
             {
-                Vector3 toTarget = target.transform.position - transform.position;
-                toTarget.y = 0;
-                if (!CanSeeThing(target) && toTarget.magnitude > 5) target = null;
+
+                if (target != null)
+                {
+                    Vector3 toTarget = target.transform.position - transform.position;
+                    toTarget.y = 0;
+                    if (!CanSeeThing(target) && toTarget.magnitude > 5) target = null;
+                }
+
+                if (cooldownScan <= 0) ScanForTargets();
+                if (cooldownPick <= 0) PickTarget();
+            }
+            else
+            {
+                target = null;
             }
 
-            if(cooldownScan <= 0) ScanForTargets();
-            if (cooldownPick <= 0) PickTarget();
+            if (jointShoulderLeft) jointShoulderLeft.target = (target) ? target.transform : null;
+            if (jointShoulderRight) jointShoulderRight.target = (target) ? target.transform : null;
+            if (jointNeck) jointNeck.target = (target) ? target.transform : null;
+
+            if (playerWantsToAttack) DoAttack();
         }
-        else
-        {
-            target = null;
-        }
-
-        if(jointShoulderLeft) jointShoulderLeft.target = (target) ? target.transform : null;
-        if(jointShoulderRight) jointShoulderRight.target = (target) ? target.transform : null;
-        if(jointNeck) jointNeck.target = (target) ? target.transform : null;
-
-        if (playerWantsToAttack) DoAttack();
-
 
     }
 
@@ -128,6 +129,7 @@ public class PlayerTargeting : MonoBehaviour
         if (target == null) return;
         if (cooldownAttack > 0) return;
         if (!CanSeeThing(target)) return;
+        if (controller.isInvincible) return;
 
         cooldownAttack = 1f/roundsPerSecond;
 

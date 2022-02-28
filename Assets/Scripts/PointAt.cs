@@ -8,13 +8,13 @@ public class PointAt : MonoBehaviour
     public Transform target;
     public bool wantToTarget = true;
 
-    //public PlayerTargeting playerTarget;
+    public PlayerMovement playerController;
     private Quaternion startRot;
     private Quaternion goalRotation;
     // Start is called before the first frame update
     void Start()
     {
-        //playerTarget = GetComponentInParent<PlayerTargeting>();
+        playerController = GetComponentInParent<PlayerMovement>();
         startRot = transform.localRotation;
     }
 
@@ -26,7 +26,10 @@ public class PointAt : MonoBehaviour
 
     private void TurnTowardTarget()
     {
-        
+        if (playerController)
+        {
+            if (playerController.isInvincible || playerController.isDead) return;
+        }
         if(target != null && wantToTarget)
         {
             Vector3 toTarget = target.position - transform.position;

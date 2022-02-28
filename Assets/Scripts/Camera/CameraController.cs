@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController: MonoBehaviour
 {
     public PlayerTargeting player;
-
+    public PlayerMovement playerController;
 
     public float mouseSensitivityX = 2f;
     public float mouseSensitivityY = 2f;
@@ -24,12 +24,13 @@ public class CameraController: MonoBehaviour
     {
         cam = GetComponentInChildren<Camera>();
         if (!player) player = FindObjectOfType<PlayerTargeting>();
+        if (!playerController) playerController = FindObjectOfType<PlayerMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool isAiming = (player && player.target && player.playerWantsToAim);
+        bool isAiming = (player && player.target && player.playerWantsToAim && !playerController.isInvincible && !playerController.isDead);
 
         // Position
         if (player == null) return;

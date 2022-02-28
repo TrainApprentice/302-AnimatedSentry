@@ -14,13 +14,14 @@ public class TargetableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (prevHealth <= 0) isDead = true;
         if (isDead) Destroy(gameObject);
     }
 
     public void ApplyDamage(int damage)
     {
+        prevHealth = currHealth;
         currHealth -= damage;
-        if (currHealth <= 0) isDead = true;
     }
 
     
