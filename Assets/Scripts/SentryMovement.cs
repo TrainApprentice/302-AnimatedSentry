@@ -5,23 +5,18 @@ using UnityEngine.AI;
 
 public class SentryMovement : MonoBehaviour
 {
-    CharacterController pawn;
+    
 
     public Transform phase1Location, phase2Location, phase3Location;
+    public GameObject explosionBase;
+    public Vector3 nextJumpPoint;
+    public bool isJumping = false;
 
     private Vector3 lastJumpPoint;
-    private Vector3 nextJumpPoint;
     private Vector3 currControlPoint;
 
     private float jumpTimer = 0f;
     private float jumpLength = 2f;
-    private bool isJumping = false;
-    
-    // Start is called before the first frame update
-    void Start()
-    { 
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -31,7 +26,13 @@ public class SentryMovement : MonoBehaviour
             float p = jumpTimer / jumpLength;
             p = Mathf.Clamp(p, 0, 1);
             transform.position = FindPointOnCurve(p);
-            if (jumpTimer >= jumpLength) isJumping = false;
+            if (jumpTimer >= jumpLength)
+            {
+                GameObject newExplosion = Instantiate(explosionBase, nextJumpPoint, Quaternion.identity);
+                newExplosion.GetComponent<ExplosionBehavior>().maxLife = 1.5f;
+                newExplosion.GetComponent<ExplosionBehavior>().maxRadius = 45f;
+                isJumping = false;
+            }
         }
         else
         {
@@ -40,34 +41,24 @@ public class SentryMovement : MonoBehaviour
             nextJumpPoint = Vector3.zero;
             currControlPoint = Vector3.zero;
         }
-        if(Input.GetKeyDown("j") && !isJumping)
-        {
-            //Vector3 randJumpPoint = new Vector3(Random.Range(-5, 6) + transform.position.x, 0, Random.Range(-5, 6) + transform.position.z);
-            Vector3 dirToJumpPoint = nextJumpPoint - lastJumpPoint;
-            nextJumpPoint = phase1Location.position;
-            lastJumpPoint = transform.position;
-
-            
-
-            Vector3 controlPoint = lastJumpPoint + new Vector3(dirToJumpPoint.x/2, 30f, dirToJumpPoint.z/2);
-
-
-            currControlPoint = controlPoint;
-            isJumping = true;
-            jumpTimer = 0f;
-
-        }
 
     }
 
-    void JumpToLocation(float timer)
+    public void SetupJump()
     {
-        
-        Vector3 a = AnimMath.Lerp(lastJumpPoint, currControlPoint, timer);
-        Vector3 b = AnimMath.Lerp(currControlPoint, nextJumpPoint, timer);
 
-        transform.position = AnimMath.Lerp(a, b, timer);
-        
+        Vector3 dirToJumpPoint = nextJumpPoint - lastJumpPoint;
+        lastJumpPoint = transform.position;
+
+
+
+        Vector3 controlPoint = (lastJumpPoint == nextJumpPoint) ? new Vector3(transform.position.x, 30f, transform.position.z) : lastJumpPoint + new Vector3(dirToJumpPoint.x / 2, 30f, dirToJumpPoint.z / 2);
+
+
+        currControlPoint = controlPoint;
+        isJumping = true;
+        jumpTimer = 0f;
+
     }
 
     Vector3 FindPointOnCurve(float p)

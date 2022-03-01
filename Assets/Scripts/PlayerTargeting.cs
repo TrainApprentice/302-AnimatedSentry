@@ -98,7 +98,7 @@ public class PlayerTargeting : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit, visionRadius))
         { 
-            if (!hit.collider.CompareTag("Enemy")) return false;
+            if (!hit.collider.CompareTag("Enemy") && !hit.collider.CompareTag("Platform")) return false;
         }
         
 

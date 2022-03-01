@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 915084523456772646}
   - component: {fileID: 7609699231779442027}
   - component: {fileID: 3541243748840948325}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TopRightFin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6995444575308712973}
   - component: {fileID: 8439091241413895735}
   - component: {fileID: 5780486626507280923}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HeadSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 8488636475923133966}
   - component: {fileID: 2491182784604785048}
   - component: {fileID: 3077379813911719420}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HeadMedium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 5796833785894159256}
   - component: {fileID: 7245598781680826237}
   - component: {fileID: 4380774934046514965}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 1747835243579632274}
   - component: {fileID: 4505995201734022646}
   - component: {fileID: 781953303917517264}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomRightFin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: -1168744312628161317}
   - component: {fileID: -5494096167032062324}
   - component: {fileID: -8569960199480583459}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -500,7 +500,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!114 &-8569960199480583459
 MonoBehaviour:
@@ -514,8 +514,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302c0191ffa87e24c91aac45c0472ecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currHealth: 0
-  prevHealth: 0
+  currHealth: 4
+  prevHealth: 4
   maxHealth: 4
 --- !u!1 &5928841780312942198
 GameObject:
@@ -526,7 +526,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6140853319840925115}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fins
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 8357777733684408921}
   - component: {fileID: 1230369149247543126}
   - component: {fileID: 7368491429140572673}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomLeftFin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,7 +646,7 @@ GameObject:
   - component: {fileID: 5131239338316357629}
   - component: {fileID: 5977437016841081638}
   - component: {fileID: 7052297144337782162}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TopLeftFin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,7 +727,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2860904837536013930}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ContactPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

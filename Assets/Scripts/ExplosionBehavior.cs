@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ExplosionBehavior : MonoBehaviour
 {
-    private float maxLife = .75f;
+    public float maxRadius = 15f;
+    public float maxLife = .75f;
+    
     private float lifespan;
     private float radius;
-    private float maxRadius = 15f;
     private Material mat;
     private CameraController cam;
 

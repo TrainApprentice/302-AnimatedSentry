@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private GameObject cam;
     CharacterController pawn;
-    private float speed = 7f;
+    private float speed = 12f;
     private float currDodgeCooldown = 0f;
     private float baseDodgeCooldown = 0f;
     
@@ -104,13 +104,13 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 isInvincible = false;
-                speed = 7f;
+                speed = 12f;
             }
             if (Input.GetKeyDown("left shift") && pawn.isGrounded)
             {
                 if (currDodgeCooldown <= 0)
                 {
-                    speed = 20f;
+                    speed = 22f;
                     storedDirection = inputDir;
                     currDodgeCooldown = .75f;
                     baseDodgeCooldown = currDodgeCooldown;
@@ -140,7 +140,11 @@ public class PlayerMovement : MonoBehaviour
     
     public void TakeHit()
     {
-        if(!isInvincible) isDead = true;
+        if (!isInvincible)
+        {
+            isDead = true;
+            pawn.enabled = false;
+        }
     }
     void Restart()
     {

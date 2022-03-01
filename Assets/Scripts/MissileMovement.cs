@@ -11,7 +11,7 @@ public class MissileMovement : MonoBehaviour
     public GameObject explosionBase, reticleBase;
 
     private Vector3 direction;
-    private float flySpeed = 25f;
+    private float flySpeed = 40f;
     private GameObject currRet;
     private float lifespan = 5f;
 
