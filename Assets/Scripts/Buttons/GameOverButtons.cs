@@ -16,13 +16,15 @@ public class GameOverButtons : MonoBehaviour
     private float timeToGameOver = 3f;
     private float timeToWinScreen = 3f;
 
-    
+    private AudioSource bgm;
+    public AudioClip gameMusic, gameOverMusic, winMusic;
 
     private void Start()
     {
         currSentry = FindObjectOfType<SentryAttacks>().gameObject;
         currPlayer = FindObjectOfType<PlayerMovement>();
         sentryHealth = currSentry.GetComponent<TargetableObject>();
+        bgm = GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -31,7 +33,13 @@ public class GameOverButtons : MonoBehaviour
             if (timeToGameOver > 0) timeToGameOver -= Time.deltaTime;
             else
             {
-                if (!gameOverScreen.activeSelf) gameOverScreen.SetActive(true);
+                if (!gameOverScreen.activeSelf)
+                {
+                    bgm.Stop();
+                    bgm.clip = gameOverMusic;
+                    bgm.Play();
+                    gameOverScreen.SetActive(true);
+                }
             }
         }
 
@@ -40,7 +48,13 @@ public class GameOverButtons : MonoBehaviour
             if (timeToWinScreen > 0) timeToGameOver -= Time.deltaTime;
             else
             {
-                if (!winScreen.activeSelf) winScreen.SetActive(true);
+                if (!winScreen.activeSelf)
+                {
+                    bgm.Stop();
+                    bgm.clip = winMusic;
+                    bgm.Play();
+                    winScreen.SetActive(true);
+                }
             }
         }
     }
@@ -70,6 +84,10 @@ public class GameOverButtons : MonoBehaviour
 
         GetComponent<EnvironmentManager>().sentryBase = currSentry.GetComponent<SentryAttacks>();
         GetComponent<EnvironmentManager>().ResetWalls();
+
+        bgm.Stop();
+        bgm.clip = gameMusic;
+        bgm.Play();
     }
     public void QuitGame()
     {

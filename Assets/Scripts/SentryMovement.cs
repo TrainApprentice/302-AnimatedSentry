@@ -15,6 +15,9 @@ public class SentryMovement : MonoBehaviour
 
     public Transform jointHips, jointLeftKnee, jointRightKnee, jointLeftHip, jointRightHip, jointBack, jointNeck, jointEyes;
 
+    public AudioClip jump;
+    private AudioSource sfx;
+    
     private Vector3 lastJumpPoint;
     private Vector3 currControlPoint;
 
@@ -28,6 +31,8 @@ public class SentryMovement : MonoBehaviour
         phase1Location = GameObject.Find("Phase1").transform;
         phase2Location = GameObject.Find("Phase2").transform;
         phase3Location = GameObject.Find("Phase3").transform;
+
+        sfx = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -46,6 +51,7 @@ public class SentryMovement : MonoBehaviour
                 newExplosion.GetComponent<ExplosionBehavior>().maxLife = 1.5f;
                 newExplosion.GetComponent<ExplosionBehavior>().maxRadius = 45f;
                 isJumping = false;
+
             }
         }
         else
@@ -74,6 +80,8 @@ public class SentryMovement : MonoBehaviour
         isJumping = true;
         jumpTimer = 0f;
 
+        sfx.clip = jump;
+        sfx.Play();
     }
 
     Vector3 FindPointOnCurve(float p)

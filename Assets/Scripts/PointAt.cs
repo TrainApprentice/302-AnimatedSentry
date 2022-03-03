@@ -18,6 +18,8 @@ public class PointAt : MonoBehaviour
         playerController = GetComponentInParent<PlayerMovement>();
         sentryController = GetComponentInParent<SentryMovement>();
         startRot = transform.localRotation;
+
+        if (sentryController) target = FindObjectOfType<PlayerMovement>().transform;
     }
 
     // Update is called once per frame

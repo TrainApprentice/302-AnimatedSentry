@@ -11,6 +11,10 @@ public class SentryAttacks : MonoBehaviour
     public Transform jointNeck;
     public Transform missileLaunchPoint;
 
+    public AudioClip missileFire;
+
+    private AudioSource sfx;
+
     private float missileRainOffset = .2f;
     private int randMissileNum = 0;
     private SentryMovement mover;
@@ -25,6 +29,7 @@ public class SentryAttacks : MonoBehaviour
         mover = GetComponent<SentryMovement>();
         playerRef = FindObjectOfType<PlayerMovement>();
         healthManager = GetComponent<TargetableObject>();
+        sfx = GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -102,7 +107,9 @@ public class SentryAttacks : MonoBehaviour
             newMissile.GetComponent<MissileMovement>().offset = offset;
         }
 
-        jointNeck.localPosition -= new Vector3(0, 1, 0);
+        jointNeck.localPosition -= jointNeck.transform.forward;
+        sfx.clip = missileFire;
+        sfx.Play();
     }
     private void TargetedMissileAttack()
     {
@@ -110,6 +117,8 @@ public class SentryAttacks : MonoBehaviour
         newMissile.GetComponent<MissileMovement>().target = target;
 
         jointNeck.localPosition -= jointNeck.transform.forward;
+        sfx.clip = missileFire;
+        sfx.Play();
     }
 
     private void JumpShockwaveAttack()

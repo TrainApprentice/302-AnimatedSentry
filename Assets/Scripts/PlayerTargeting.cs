@@ -15,6 +15,9 @@ public class PlayerTargeting : MonoBehaviour
     public PlayerMovement controller;
     public GameObject gun;
 
+    private AudioSource sfx;
+    public AudioClip fireGun;
+
     private List<TargetableObject> validTargets = new List<TargetableObject>();
     private float cooldownScan = 0;
     private float cooldownPick = 0;
@@ -22,11 +25,15 @@ public class PlayerTargeting : MonoBehaviour
 
     private CameraController cam;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
         cam = FindObjectOfType<CameraController>();
+
+        sfx = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -143,5 +150,8 @@ public class PlayerTargeting : MonoBehaviour
 
         target.ApplyDamage(2);
         cam.DoShake(.3f, .999f);
+
+        sfx.clip = fireGun;
+        sfx.Play();
     }
 }

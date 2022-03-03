@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     public bool isDead = false;
     public bool isInvincible = false;
     public bool isGrounded = true;
+
+    private AudioSource sfx;
+    public AudioClip dodge, jump;
     PlayerTargeting playerTargeting;
 
 
@@ -40,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         playerTargeting = GetComponent<PlayerTargeting>();
 
         playerJointDetachScripts = GetComponentsInChildren<DetachJoint>();
-        
+        sfx = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -94,6 +97,8 @@ public class PlayerMovement : MonoBehaviour
                 airAnimTimer = 0;
                 if (wantsToJump)
                 {
+                    sfx.clip = jump;
+                    sfx.Play();
                     isGrounded = false;
                     velocityVertical += 9f;
                 }
@@ -124,6 +129,8 @@ public class PlayerMovement : MonoBehaviour
                     storedDirection = inputDir;
                     currDodgeCooldown = .75f;
                     baseDodgeCooldown = currDodgeCooldown;
+                    sfx.clip = dodge;
+                    sfx.Play();
                 }
             }
 
