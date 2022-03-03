@@ -84,8 +84,9 @@ public class PlayerMovement : MonoBehaviour
             {
                 if ((pawn.collisionFlags == CollisionFlags.None)) isGrounded = false;
             }
-
-            inputDir = (transform.forward * v + transform.right * h);
+            Vector3 forwardV = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z);
+            Vector3 rightV = new Vector3(cam.transform.right.x, 0, cam.transform.right.z);
+            inputDir = (forwardV * v + rightV * h);
             if (inputDir.sqrMagnitude > 1) inputDir.Normalize();
 
             if (pawn.collisionFlags == CollisionFlags.Below) isGrounded = true;
@@ -207,6 +208,7 @@ public class PlayerMovement : MonoBehaviour
             jointShoulderRight.localPosition = new Vector3(jointShoulderRight.localPosition.x, .276f, jointShoulderRight.localPosition.z);
         }
         skeletonBase.localRotation = AnimMath.Ease(skeletonBase.localRotation, Quaternion.identity, .001f);
+        skeletonBase.localPosition = AnimMath.Ease(skeletonBase.localPosition, Vector3.zero, .001f);
         idleAnimTimer = 0f;
     }
 
@@ -242,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
         jointHips.localRotation = AnimMath.Ease(jointHips.localRotation, Quaternion.identity, .001f);
 
         skeletonBase.localRotation = AnimMath.Ease(skeletonBase.localRotation, Quaternion.identity, .001f);
-
+        skeletonBase.localPosition = AnimMath.Ease(skeletonBase.localPosition, Vector3.zero, .001f);
 
         walkAnimTimer = 0f;
     }
@@ -327,8 +329,28 @@ public class PlayerMovement : MonoBehaviour
     }
     void DodgeAnim()
     {
+        if(currDodgeCooldown > baseDodgeCooldown * .98f)
+        {
+            jointSpine.localRotation = Quaternion.identity;
 
-        if(currDodgeCooldown > baseDodgeCooldown * .9f) 
+            jointNeck.localRotation = Quaternion.identity;
+
+            jointShoulderLeft.localRotation = Quaternion.Euler(90, 0, 0);
+            jointShoulderRight.localRotation = Quaternion.Euler(90, 0, 0);
+
+            jointElbowLeft.localRotation = Quaternion.identity;
+            jointElbowRight.localRotation = Quaternion.identity;
+
+            jointHipLeft.localRotation = Quaternion.identity;
+            jointHipRight.localRotation = Quaternion.identity;
+
+            jointKneeLeft.localRotation = Quaternion.identity;
+            jointKneeRight.localRotation = Quaternion.identity;
+
+            skeletonBase.localRotation = Quaternion.identity;
+            skeletonBase.localPosition = Vector3.zero;
+        }
+        else if(currDodgeCooldown > baseDodgeCooldown * .9f) 
         {
             
             jointSpine.localRotation = AnimMath.Ease(jointSpine.localRotation, Quaternion.identity, .0001f);

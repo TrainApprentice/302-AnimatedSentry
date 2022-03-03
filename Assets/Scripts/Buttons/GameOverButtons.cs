@@ -15,59 +15,74 @@ public class GameOverButtons : MonoBehaviour
 
     private float timeToGameOver = 3f;
     private float timeToWinScreen = 3f;
+    private bool winScreenOut = false;
+    private bool gameOverScreenOut = false;
 
     private AudioSource bgm;
     public AudioClip gameMusic, gameOverMusic, winMusic;
 
     private void Start()
     {
-        currSentry = FindObjectOfType<SentryAttacks>().gameObject;
-        currPlayer = FindObjectOfType<PlayerMovement>();
-        sentryHealth = currSentry.GetComponent<TargetableObject>();
         bgm = GetComponent<AudioSource>();
+        RestartGame();
     }
     private void Update()
     {
-        if(currPlayer.isDead)
+        if (currPlayer.isDead)
         {
-            if (timeToGameOver > 0) timeToGameOver -= Time.deltaTime;
-            else
+            if (!winScreenOut)
             {
-                if (!gameOverScreen.activeSelf)
+                if (timeToGameOver > 0) timeToGameOver -= Time.deltaTime;
+                else
                 {
-                    bgm.Stop();
-                    bgm.clip = gameOverMusic;
-                    bgm.Play();
-                    gameOverScreen.SetActive(true);
+                    if (!gameOverScreen.activeSelf)
+                    {
+                        bgm.Stop();
+                        bgm.clip = gameOverMusic;
+                        bgm.Play();
+                        gameOverScreen.SetActive(true);
+                        gameOverScreenOut = true;
+                    }
                 }
+
+            }
+        }
+        if (sentryHealth.isDead)
+        {
+            if(!gameOverScreenOut)
+            {
+                if (timeToWinScreen > 0 && !gameOverScreenOut) timeToWinScreen -= Time.deltaTime;
+                else
+                {
+                    if (!winScreen.activeSelf && !gameOverScreenOut)
+                    {
+                        bgm.Stop();
+                        bgm.clip = winMusic;
+                        bgm.Play();
+                        winScreen.SetActive(true);
+                        winScreenOut = true;
+                    }
+                }
+            }
+            
+        }
+    }
+
+    public void RestartGame()
+    {
+        print("Restart");
+        DetachJoint[] currJoints = FindObjectsOfType<DetachJoint>();
+        if (currJoints.Length > 0)
+        {
+            foreach (DetachJoint j in currJoints)
+            {
+                Destroy(j.gameObject);
             }
         }
 
-        if(sentryHealth.isDead)
-        {
-            if (timeToWinScreen > 0) timeToWinScreen -= Time.deltaTime;
-            else
-            {
-                if (!winScreen.activeSelf)
-                {
-                    bgm.Stop();
-                    bgm.clip = winMusic;
-                    bgm.Play();
-                    winScreen.SetActive(true);
-                }
-            }
-        }
-    }
-    public void RestartGame()
-    {
-        DetachJoint[] currJoints = FindObjectsOfType<DetachJoint>();
-        foreach (DetachJoint j in currJoints)
-        {
-            Destroy(j.gameObject);
-        }
-        Destroy(currPlayer.gameObject);
-        Destroy(currSentry.gameObject);
-        GameObject newPlayer = Instantiate(playerBase, playerStart.position, Quaternion.identity);
+        if (currPlayer) Destroy(currPlayer.gameObject);
+        if (currSentry) Destroy(currSentry.gameObject);
+        GameObject newPlayer = Instantiate(playerBase, playerStart.position, Quaternion.Euler(0, 180, 0));
         GameObject newSentry = Instantiate(sentryBase, sentryStart.position, Quaternion.identity);
 
         currPlayer = newPlayer.GetComponent<PlayerMovement>();
@@ -81,6 +96,8 @@ public class GameOverButtons : MonoBehaviour
         gameOverScreen.SetActive(false);
         timeToGameOver = 3f;
         timeToWinScreen = 3f;
+        winScreenOut = false;
+        gameOverScreenOut = false;
 
         GetComponent<EnvironmentManager>().sentryBase = currSentry.GetComponent<SentryAttacks>();
         GetComponent<EnvironmentManager>().ResetWalls();
@@ -94,3 +111,7 @@ public class GameOverButtons : MonoBehaviour
         Application.Quit();
     }
 }
+
+        
+    
+
