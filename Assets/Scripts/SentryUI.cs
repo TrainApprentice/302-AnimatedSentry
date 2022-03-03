@@ -9,6 +9,10 @@ public class SentryUI : MonoBehaviour
     TargetableObject healthStorage;
     SentryAttacks aiBase;
 
+    private AudioSource sfx;
+    public AudioClip death;
+    private bool playOnce = true;
+
     private DetachJoint[] sentryJointDetachScripts;
     private string nameAndTitle;
 
@@ -22,6 +26,7 @@ public class SentryUI : MonoBehaviour
     {
         healthStorage = GetComponent<TargetableObject>();
         aiBase = GetComponent<SentryAttacks>();
+        sfx = GetComponent<AudioSource>();
 
         sentryJointDetachScripts = GetComponentsInChildren<DetachJoint>();
 
@@ -52,6 +57,13 @@ public class SentryUI : MonoBehaviour
         {
             j.Detach();
         }
+        if(playOnce)
+        {
+            sfx.clip = death;
+            sfx.Play();
+            playOnce = false;
+        }
+        
     }
 
     void UpdateHealthBar()

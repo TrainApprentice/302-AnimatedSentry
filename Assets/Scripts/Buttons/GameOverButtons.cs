@@ -45,7 +45,7 @@ public class GameOverButtons : MonoBehaviour
 
         if(sentryHealth.isDead)
         {
-            if (timeToWinScreen > 0) timeToGameOver -= Time.deltaTime;
+            if (timeToWinScreen > 0) timeToWinScreen -= Time.deltaTime;
             else
             {
                 if (!winScreen.activeSelf)

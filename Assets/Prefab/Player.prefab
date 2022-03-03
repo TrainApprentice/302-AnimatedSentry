@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2222047458633119275}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 552978990992200969}
   - component: {fileID: 3710002878062245183}
   - component: {fileID: 7874439186874437700}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Gun Grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3787380273595372303}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Base Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 470656383898341839}
   - component: {fileID: 3016634872746625219}
   - component: {fileID: 5840010551437117664}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Gun Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 8764249334457556748}
   - component: {fileID: 5586738092012432976}
   - component: {fileID: 3462580773748760900}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Left Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 4916273765183092501}
   - component: {fileID: 7648914080614443123}
   - component: {fileID: 381081013214722044}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 'Joint - Right Hair '
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 7749478063841421351}
   - component: {fileID: 7749478063841421345}
   - component: {fileID: 7749478063841421350}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hair Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +480,7 @@ GameObject:
   - component: {fileID: 1984662954358750517}
   - component: {fileID: 6205595084491723473}
   - component: {fileID: 6594973628900884165}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Right Hip
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -556,7 +556,7 @@ GameObject:
   - component: {fileID: 7749478063913053283}
   - component: {fileID: 7749478063913053280}
   - component: {fileID: 7749478063913053281}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 7749478063929159330}
   - component: {fileID: 7749478063929159331}
   - component: {fileID: 7749478063929159328}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Shoulders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -722,7 +722,7 @@ GameObject:
   - component: {fileID: 7749478064003864723}
   - component: {fileID: 7749478064003864720}
   - component: {fileID: 7749478064003864721}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Right Bicep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -809,7 +809,7 @@ GameObject:
   - component: {fileID: -5817884993469613152}
   - component: {fileID: 2201105890411804653}
   - component: {fileID: 9148460027807233199}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -877,6 +877,7 @@ MonoBehaviour:
   isGrounded: 1
   dodge: {fileID: 8300000, guid: 7d771a3149b68c3448de6195ee4244d0, type: 3}
   jump: {fileID: 8300000, guid: e9a0cb5fd41e6e04dad2941b6cd857a8, type: 3}
+  death: {fileID: 8300000, guid: 7aa2fcade683251438a1ee0e73481690, type: 3}
 --- !u!143 &9215241894569471923
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1036,7 +1037,7 @@ GameObject:
   - component: {fileID: 7749478064225601346}
   - component: {fileID: 7749478064225601347}
   - component: {fileID: 7749478064225601344}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Left Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1120,7 +1121,7 @@ GameObject:
   - component: {fileID: 4288134384750345274}
   - component: {fileID: 4198098344048529784}
   - component: {fileID: 765417146539927726}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Left Elbow
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1195,7 +1196,7 @@ GameObject:
   - component: {fileID: 7749478064415830697}
   - component: {fileID: 7749478064415830702}
   - component: {fileID: 7749478064415830703}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Left Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1278,7 +1279,7 @@ GameObject:
   - component: {fileID: 7749478064466068801}
   - component: {fileID: 7749478064466068806}
   - component: {fileID: 7749478064466068807}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Left Bicep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1363,7 +1364,7 @@ GameObject:
   - component: {fileID: 8939103651193285249}
   - component: {fileID: 1738999219709915801}
   - component: {fileID: 8319089767550843904}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Neck
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1461,7 +1462,7 @@ GameObject:
   - component: {fileID: 7911661928269901062}
   - component: {fileID: 8190116997444355491}
   - component: {fileID: 4649679881112562996}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Hips
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1538,7 +1539,7 @@ GameObject:
   - component: {fileID: 7749478064592652233}
   - component: {fileID: 7749478064592652235}
   - component: {fileID: 7749478064592652232}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Left Pigtail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1621,7 +1622,7 @@ GameObject:
   - component: {fileID: 7749478064632911487}
   - component: {fileID: 7749478064632911484}
   - component: {fileID: 7749478064632911485}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Right Forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1705,7 +1706,7 @@ GameObject:
   - component: {fileID: 1830726246307451854}
   - component: {fileID: 9161122474758876814}
   - component: {fileID: 3229475133178749290}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Left Hair
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1781,7 +1782,7 @@ GameObject:
   - component: {fileID: 4751451009495736556}
   - component: {fileID: 794583835083775232}
   - component: {fileID: 3076879879423695890}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Right Elbow
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1858,7 +1859,7 @@ GameObject:
   - component: {fileID: 6088804628501155747}
   - component: {fileID: 4277733089781124788}
   - component: {fileID: 936570111127296065}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Left Hip
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1936,7 +1937,7 @@ GameObject:
   - component: {fileID: 2270803896924474207}
   - component: {fileID: 2020905052520756815}
   - component: {fileID: 4082075039345297807}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Right Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -2032,7 +2033,7 @@ GameObject:
   - component: {fileID: 3090040564695606658}
   - component: {fileID: 9168070107090286377}
   - component: {fileID: 1341155730207422061}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Right Knee
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -2107,7 +2108,7 @@ GameObject:
   - component: {fileID: 7749478065179973409}
   - component: {fileID: 7749478065179973414}
   - component: {fileID: 7749478065179973415}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Right Thigh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2191,7 +2192,7 @@ GameObject:
   - component: {fileID: 501071205511432818}
   - component: {fileID: 1150561995139573729}
   - component: {fileID: 4316255351553781520}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Left Knee
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -2266,7 +2267,7 @@ GameObject:
   - component: {fileID: 7749478065302753596}
   - component: {fileID: 7749478065302753597}
   - component: {fileID: 7749478065302755010}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Right Shin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2349,7 +2350,7 @@ GameObject:
   - component: {fileID: 7749478065529501253}
   - component: {fileID: 7749478065529501255}
   - component: {fileID: 7749478065529501252}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Right Pigtail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2432,7 +2433,7 @@ GameObject:
   - component: {fileID: 7749478065533644921}
   - component: {fileID: 7749478065533644926}
   - component: {fileID: 7749478065533644927}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Left Shin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2515,7 +2516,7 @@ GameObject:
   - component: {fileID: 7749478065545233886}
   - component: {fileID: 7749478065545233887}
   - component: {fileID: 7749478065545233884}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2599,7 +2600,7 @@ GameObject:
   - component: {fileID: 7045432107271803232}
   - component: {fileID: 3723902745633553982}
   - component: {fileID: 6582252816600361141}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Joint - Spine
   m_TagString: Untagged
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}

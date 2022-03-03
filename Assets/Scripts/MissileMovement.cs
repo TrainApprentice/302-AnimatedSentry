@@ -30,7 +30,22 @@ public class MissileMovement : MonoBehaviour
             transform.eulerAngles = new Vector3(90, 0, 0);
             transform.position = target.position + new Vector3(0, 100f, 0) + offset;
             flySpeed = 50f;
-            currRet = Instantiate(reticleBase, target.position - new Vector3(0, 1f, 0) + offset, Quaternion.identity);
+
+            Ray ray = new Ray();
+            ray.origin = transform.position;
+            ray.direction = direction;
+            Vector3 retPos = Vector3.zero;
+
+            RaycastHit hit;
+
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                retPos = hit.point; 
+            }
+
+
+            currRet = Instantiate(reticleBase, retPos, Quaternion.identity);
         }
 
     }

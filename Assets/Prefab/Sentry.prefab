@@ -691,6 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e3548453603384484593d459c01cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  death: {fileID: 8300000, guid: fff1769497be2e64592e543ec705c02d, type: 3}
   healthBar: {fileID: 0}
   sentryName: {fileID: 0}
 --- !u!143 &4066190152429164098

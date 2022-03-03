@@ -22,7 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isGrounded = true;
 
     private AudioSource sfx;
-    public AudioClip dodge, jump;
+    public AudioClip dodge, jump, death;
+    private bool dieOnce = true;
     PlayerTargeting playerTargeting;
 
 
@@ -81,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if(h!= 0 || v!= 0)
             {
-                if ((pawn.collisionFlags != CollisionFlags.Below)) isGrounded = false;
+                if ((pawn.collisionFlags == CollisionFlags.None)) isGrounded = false;
             }
 
             inputDir = (transform.forward * v + transform.right * h);
@@ -155,48 +156,7 @@ public class PlayerMovement : MonoBehaviour
             pawn.enabled = false;
         }
     }
-    /*
-    public void Restart()
-    {
-        isDead = false;
-        pawn.enabled = true;
-        foreach(DetachJoint j in playerJointDetachScripts)
-        {
-            j.Reattach();
-        }
-        jointSpine.localRotation = Quaternion.identity;
-        jointNeck.localRotation = Quaternion.identity;
-        jointHairLeft.localRotation = Quaternion.identity;
-        jointHairRight.localRotation = Quaternion.identity;
-        jointShoulderLeft.localRotation = Quaternion.Euler(90, 0, 0);
-        jointShoulderRight.localRotation = Quaternion.Euler(90, 0, 0);
-        jointElbowLeft.localRotation = Quaternion.identity;
-        jointElbowRight.localRotation = Quaternion.identity;
-        jointHipLeft.localRotation = Quaternion.identity;
-        jointHipRight.localRotation = Quaternion.identity;
-        jointKneeLeft.localRotation = Quaternion.identity;
-        jointKneeRight.localRotation = Quaternion.identity;
-        skeletonBase.localRotation = Quaternion.identity;
-
-        skeletonBase.localPosition = Vector3.zero;
-        jointHips.localPosition = Vector3.zero;
-        jointSpine.localPosition = Vector3.zero;
-        jointNeck.localPosition = new Vector3(0, .464f, 0);
-        jointShoulderLeft.localPosition = new Vector3(-.6f, .276f, 0);
-        jointShoulderRight.localPosition = new Vector3(.6f, .276f, 0);
-        jointElbowLeft.localPosition = new Vector3(-.1f, 0, .259f);
-        jointElbowRight.localPosition = new Vector3(.1f, 0, .259f);
-        jointHairLeft.localPosition = new Vector3(-.236f, .513f, -.175f);
-        jointHairRight.localPosition = new Vector3(.236f, .513f, -.175f);
-        jointHipLeft.localPosition = new Vector3(-.22f, -.341f, .102f);
-        jointHipRight.localPosition = new Vector3(.22f, -.341f, .102f);
-        jointKneeLeft.localPosition = new Vector3(0, -.35f, 0);
-        jointKneeRight.localPosition = new Vector3(0, -.35f, 0);
-
-        transform.rotation = Quaternion.identity;
-        transform.position = startPosition.position;
-    }
-    */
+    
     void WalkAnim()
     {
         walkAnimTimer += Time.deltaTime * speed;
@@ -241,11 +201,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            //jointElbowLeft.localRotation = Quaternion.identity;
+            jointElbowLeft.localRotation = Quaternion.identity;
             jointElbowRight.localRotation = Quaternion.identity;
-            //jointShoulderLeft.localPosition = new Vector3(jointShoulderLeft.localPosition.x, .276f, jointShoulderLeft.localPosition.z);
+            jointShoulderLeft.localPosition = new Vector3(jointShoulderLeft.localPosition.x, .276f, jointShoulderLeft.localPosition.z);
             jointShoulderRight.localPosition = new Vector3(jointShoulderRight.localPosition.x, .276f, jointShoulderRight.localPosition.z);
         }
+        skeletonBase.localRotation = AnimMath.Ease(skeletonBase.localRotation, Quaternion.identity, .001f);
         idleAnimTimer = 0f;
     }
 
@@ -280,7 +241,7 @@ public class PlayerMovement : MonoBehaviour
 
         jointHips.localRotation = AnimMath.Ease(jointHips.localRotation, Quaternion.identity, .001f);
 
-        
+        skeletonBase.localRotation = AnimMath.Ease(skeletonBase.localRotation, Quaternion.identity, .001f);
 
 
         walkAnimTimer = 0f;
@@ -356,6 +317,13 @@ public class PlayerMovement : MonoBehaviour
         {
             j.Detach();
         }
+        if(dieOnce)
+        {
+            sfx.clip = death;
+            sfx.Play();
+            dieOnce = false;
+        }
+        
     }
     void DodgeAnim()
     {
