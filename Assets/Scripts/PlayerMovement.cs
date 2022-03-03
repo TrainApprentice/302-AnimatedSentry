@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform skeletonBase;
     public bool isDead = false;
     public bool isInvincible = false;
+    public bool isGrounded = true;
     PlayerTargeting playerTargeting;
 
 
@@ -29,8 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 storedDirection;
     private float velocityVertical = 0;
     private float gravMult = -9.8f;
-    private bool isGrounded = true;
-    private DetachJoint[] allJointDetachScripts;
+    private DetachJoint[] playerJointDetachScripts;
 
     // Start is called before the first frame update
     void Start()
@@ -39,8 +39,8 @@ public class PlayerMovement : MonoBehaviour
         cam = FindObjectOfType<CameraController>().gameObject;
         playerTargeting = GetComponent<PlayerTargeting>();
 
-        allJointDetachScripts = FindObjectsOfType<DetachJoint>();
-        print(allJointDetachScripts.Length);
+        playerJointDetachScripts = GetComponentsInChildren<DetachJoint>();
+        
     }
 
     // Update is called once per frame
@@ -63,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
                 euler.z = 0;
                 worldRot.eulerAngles = euler;
                 transform.rotation = AnimMath.Ease(transform.rotation, worldRot, .001f);
+
             }
             else if (cam && (h != 0 || v != 0) && currDodgeCooldown <= 0)
             {
@@ -74,19 +75,30 @@ public class PlayerMovement : MonoBehaviour
                 Quaternion playerRot = Quaternion.Euler(0, playerYaw, 0);
                 Quaternion targetRot = Quaternion.Euler(0, camYaw, 0);
                 transform.rotation = AnimMath.Ease(playerRot, targetRot, .001f);
-
+            }
+            if(h!= 0 || v!= 0)
+            {
+                if ((pawn.collisionFlags != CollisionFlags.Below)) isGrounded = false;
             }
 
             inputDir = (transform.forward * v + transform.right * h);
             if (inputDir.sqrMagnitude > 1) inputDir.Normalize();
 
-            isGrounded = (pawn.isGrounded || transform.position.y <= -1.36f);
+            if (pawn.collisionFlags == CollisionFlags.Below) isGrounded = true;
+            
+            print("Grounded: " + isGrounded);
+            print("Flags: " + (pawn.collisionFlags == CollisionFlags.Below));
+            //isGrounded = (pawn.isGrounded || transform.position.y <= -1.42f || isOnObstacle);
             bool wantsToJump = Input.GetButtonDown("Jump");
             if (isGrounded)
             {
                 velocityVertical = 0;
                 airAnimTimer = 0;
-                if (wantsToJump) velocityVertical += 9f;
+                if (wantsToJump)
+                {
+                    isGrounded = false;
+                    velocityVertical += 9f;
+                }
             }
             velocityVertical += gravMult * Time.deltaTime;
 
@@ -128,16 +140,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else DeathAnim();
 
-
-        // DEBUG ONLY
-
-        if (Input.GetKeyDown("k"))
-        {
-            isDead = true;
-            pawn.enabled = false;
-        }
     }
-    
+
     public void TakeHit()
     {
         if (!isInvincible)
@@ -194,9 +198,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            jointElbowLeft.localRotation = Quaternion.identity;
+            //jointElbowLeft.localRotation = Quaternion.identity;
             jointElbowRight.localRotation = Quaternion.identity;
-            jointShoulderLeft.localPosition = new Vector3(jointShoulderLeft.localPosition.x, .276f, jointShoulderLeft.localPosition.z);
+            //jointShoulderLeft.localPosition = new Vector3(jointShoulderLeft.localPosition.x, .276f, jointShoulderLeft.localPosition.z);
             jointShoulderRight.localPosition = new Vector3(jointShoulderRight.localPosition.x, .276f, jointShoulderRight.localPosition.z);
         }
         idleAnimTimer = 0f;
@@ -305,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void DeathAnim()
     {
-        foreach (DetachJoint j in allJointDetachScripts)
+        foreach (DetachJoint j in playerJointDetachScripts)
         {
             j.Detach();
         }

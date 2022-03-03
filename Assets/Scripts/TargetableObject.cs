@@ -5,7 +5,7 @@ using UnityEngine;
 public class TargetableObject : MonoBehaviour
 {
     public float currHealth, prevHealth, maxHealth;
-    private bool isDead = false;
+    public bool isDead = false;
 
     private void Start()
     {
@@ -15,7 +15,7 @@ public class TargetableObject : MonoBehaviour
     void Update()
     {
         if (prevHealth <= 0) isDead = true;
-        if (isDead) Destroy(gameObject);
+        
     }
 
     public void ApplyDamage(int damage)

@@ -28,7 +28,7 @@ public class MissileMovement : MonoBehaviour
         {
             direction = Vector3.down;
             transform.eulerAngles = new Vector3(90, 0, 0);
-            transform.position = target.position + new Vector3(0, 70f, 0) + offset;
+            transform.position = target.position + new Vector3(0, 100f, 0) + offset;
             flySpeed = 50f;
             currRet = Instantiate(reticleBase, target.position - new Vector3(0, 1f, 0) + offset, Quaternion.identity);
         }

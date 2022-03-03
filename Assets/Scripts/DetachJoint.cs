@@ -6,12 +6,12 @@ public class DetachJoint : MonoBehaviour
 {
     private Transform storeParent;
     private Rigidbody rb;
-    private BoxCollider collider;
+    private BoxCollider hitbox;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        collider = GetComponent<BoxCollider>();
+        hitbox = GetComponent<BoxCollider>();
         storeParent = transform.parent;
     }
 
@@ -20,14 +20,14 @@ public class DetachJoint : MonoBehaviour
         
         rb.useGravity = true;
         rb.AddRelativeForce(Vector3.up * .01f);
-        collider.enabled = true;
+        hitbox.enabled = true;
         transform.SetParent(null);
     }
 
     public void Reattach()
     {
         rb.useGravity = false;
-        collider.enabled = false;
+        hitbox.enabled = false;
         transform.SetParent(storeParent);
     }
     

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2067121919865773935}
   m_Layer: 6
   m_Name: Explosion
-  m_TagString: Untagged
+  m_TagString: Explosion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,3 +110,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433cc568ea182244f8092c3c228ffe00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxRadius: 15
+  maxLife: 0.75

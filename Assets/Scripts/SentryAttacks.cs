@@ -8,9 +8,13 @@ public class SentryAttacks : MonoBehaviour
     public Transform target;
     public float currPhase = 0;
 
+    public Transform jointHips, jointLeftKnee, jointRightKnee, jointBack, jointNeck, jointEyes;
+    public Transform missileLaunchPoint;
+
     private float missileRainOffset = .2f;
     private int randMissileNum = 0;
     private SentryMovement mover;
+    private TargetableObject healthManager;
     private GameObject playerRef;
     private float cooldownToNextAttack = 3f;
     private float rainChance, missileChance, shockwaveChance;
@@ -20,21 +24,23 @@ public class SentryAttacks : MonoBehaviour
         target = FindObjectOfType<PlayerMovement>().transform;
         mover = GetComponent<SentryMovement>();
         playerRef = FindObjectOfType<PlayerMovement>().gameObject;
+        healthManager = GetComponent<TargetableObject>();
     }
     private void Update()
     {
         if(randMissileNum > 0)
         {
+            RainAnim();
             missileRainOffset -= Time.deltaTime;
             if(missileRainOffset <= 0)
             {
                 MissileRainAttack();
-                missileRainOffset = UnityEngine.Random.Range(0, .5f);
+                missileRainOffset = .5f;
                 randMissileNum--;
             }
         }
 
-        RunAI();
+        //if(!healthManager.isDead) RunAI();
     }
 
     private void RunAI()
@@ -47,19 +53,20 @@ public class SentryAttacks : MonoBehaviour
         if(cooldownToNextAttack <= 0)
         {
             float rand = Random.Range(0f,1f);
-            print(rand);
 
             if (rand < shockwaveChance) JumpShockwaveAttack();
             else if (rand < shockwaveChance + rainChance)
             {
+                RainAnim();
                 MissileRainAttack(false);
                 randMissileNum = Random.Range(1, 4);
             }
             else if (rand < shockwaveChance + rainChance + missileChance) TargetedMissileAttack();
             else print("That didn't work");
 
-            cooldownToNextAttack = 6 - currPhase;
+            cooldownToNextAttack = 7 - currPhase;
         }
+        jointNeck.localPosition = AnimMath.Ease(jointNeck.localPosition, new Vector3(0, 3.34f, 0), .001f);
         
     }
 
@@ -81,12 +88,11 @@ public class SentryAttacks : MonoBehaviour
 
     private void MissileRainAttack(bool doRand = true)
     {
-        print("FIRE RAINS FROM ABOVE");
-        GameObject newMissile = Instantiate(missile, transform.position, Quaternion.identity); ;
+        GameObject newMissile = Instantiate(missile, missileLaunchPoint.position, Quaternion.identity); ;
         newMissile.GetComponent<MissileMovement>().isRainAttack = true;
         newMissile.GetComponent<MissileMovement>().target = target;
         
-        if(doRand)
+        if (doRand)
         {
             float randAngle = Random.Range(0, 360);
             float randDistance = Random.Range(3, 10);
@@ -95,12 +101,15 @@ public class SentryAttacks : MonoBehaviour
 
             newMissile.GetComponent<MissileMovement>().offset = offset;
         }
+
+        jointNeck.localPosition -= new Vector3(0, 1, 0);
     }
     private void TargetedMissileAttack()
     {
-        print("PEW");
-        GameObject newMissile = Instantiate(missile, transform.position, Quaternion.identity);
+        GameObject newMissile = Instantiate(missile, missileLaunchPoint.position, Quaternion.identity);
         newMissile.GetComponent<MissileMovement>().target = target;
+
+        jointNeck.localPosition -= jointNeck.transform.forward;
     }
 
     private void JumpShockwaveAttack()
@@ -127,4 +136,12 @@ public class SentryAttacks : MonoBehaviour
         }
         mover.SetupJump();
     }
+
+    private void RainAnim()
+    {
+        Quaternion neckGoal = Quaternion.Euler(-90, jointNeck.localRotation.eulerAngles.y, 0);
+        jointNeck.localRotation = AnimMath.Ease(jointNeck.localRotation, neckGoal, .001f);
+
+    }
+    
 }

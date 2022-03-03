@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerTargeting : MonoBehaviour
 {
-    public float visionRadius = 20f;
+    private float visionRadius = 30f;
     [Range(1, 20)]
     public int roundsPerSecond = 3;
     public TargetableObject target { get; private set; }
     public bool playerWantsToAim { get; private set; } = false;
     public bool playerWantsToAttack { get; private set; } = false;
 
-    public PointAt jointShoulderRight, jointShoulderLeft, jointNeck;
+    public PointAt jointShoulderRight, jointNeck; //jointShoulderLeft
     public PlayerMovement controller;
-   
+    public GameObject gun;
 
     private List<TargetableObject> validTargets = new List<TargetableObject>();
     private float cooldownScan = 0;
@@ -38,7 +38,7 @@ public class PlayerTargeting : MonoBehaviour
         if (cooldownScan > 0) cooldownScan -= Time.deltaTime;
         if (cooldownPick > 0) cooldownPick -= Time.deltaTime;
         if (cooldownAttack > 0) cooldownAttack -= Time.deltaTime;
-        if (!controller.isInvincible && !controller.isDead)
+        if (!controller.isInvincible && !controller.isDead && controller.isGrounded)
         {
             if (playerWantsToAim)
             {
@@ -47,6 +47,7 @@ public class PlayerTargeting : MonoBehaviour
                 {
                     Vector3 toTarget = target.transform.position - transform.position;
                     toTarget.y = 0;
+                    gun.SetActive(true);
                     if (!CanSeeThing(target) && toTarget.magnitude > 5) target = null;
                 }
 
@@ -56,13 +57,18 @@ public class PlayerTargeting : MonoBehaviour
             else
             {
                 target = null;
+                gun.SetActive(false);
             }
 
-            if (jointShoulderLeft) jointShoulderLeft.target = (target) ? target.transform : null;
             if (jointShoulderRight) jointShoulderRight.target = (target) ? target.transform : null;
             if (jointNeck) jointNeck.target = (target) ? target.transform : null;
 
             if (playerWantsToAttack) DoAttack();
+        }
+        else
+        {
+            if (jointShoulderRight) jointShoulderRight.target =  null;
+            if (jointNeck) jointNeck.target =  null;
         }
 
     }
@@ -98,7 +104,7 @@ public class PlayerTargeting : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit, visionRadius))
         { 
-            if (!hit.collider.CompareTag("Enemy") && !hit.collider.CompareTag("Platform")) return false;
+            if (!hit.collider.CompareTag("Enemy") && !hit.collider.CompareTag("Platform") && !hit.collider.CompareTag("Explosion")) return false;
         }
         
 
@@ -133,7 +139,6 @@ public class PlayerTargeting : MonoBehaviour
 
         cooldownAttack = 1f/roundsPerSecond;
 
-        jointShoulderLeft.transform.localEulerAngles += new Vector3(-20, 0, 0);
         jointShoulderRight.transform.localEulerAngles += new Vector3(-20, 0, 0);
 
         target.ApplyDamage(2);

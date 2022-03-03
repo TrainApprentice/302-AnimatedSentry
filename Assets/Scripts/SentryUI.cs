@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,19 +9,38 @@ public class SentryUI : MonoBehaviour
     TargetableObject healthStorage;
     SentryAttacks aiBase;
 
+    private DetachJoint[] sentryJointDetachScripts;
+
     public Image healthBar;
     // Start is called before the first frame update
     void Start()
     {
         healthStorage = GetComponent<TargetableObject>();
         aiBase = GetComponent<SentryAttacks>();
+
+        sentryJointDetachScripts = GetComponentsInChildren<DetachJoint>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateHealthBar();
-        UpdateAIPhases();
+        if (!healthStorage.isDead)
+        {
+            UpdateHealthBar();
+            UpdateAIPhases();
+        }
+        else DeathAnim();
+        
+
+
+    }
+
+    private void DeathAnim()
+    {
+        foreach(DetachJoint j in sentryJointDetachScripts)
+        {
+            j.Detach();
+        }
     }
 
     void UpdateHealthBar()
