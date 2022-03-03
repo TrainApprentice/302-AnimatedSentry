@@ -7,10 +7,7 @@ public class TargetableObject : MonoBehaviour
     public float currHealth, prevHealth, maxHealth;
     public bool isDead = false;
 
-    private void Start()
-    {
-        currHealth = maxHealth;
-    }
+
     // Update is called once per frame
     void Update()
     {
@@ -23,6 +20,7 @@ public class TargetableObject : MonoBehaviour
         prevHealth = currHealth;
         currHealth -= damage;
     }
+
 
     
 }

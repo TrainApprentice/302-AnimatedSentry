@@ -19,9 +19,16 @@ public class SentryMovement : MonoBehaviour
     private Vector3 currControlPoint;
 
     private float jumpTimer = 0f;
-    private float jumpLength = 2f;
+    private float jumpLength = 3f;
 
     private float idleAnimTimer = 0;
+
+    private void Start()
+    {
+        phase1Location = GameObject.Find("Phase1").transform;
+        phase2Location = GameObject.Find("Phase2").transform;
+        phase3Location = GameObject.Find("Phase3").transform;
+    }
 
     // Update is called once per frame
     void Update()
@@ -60,7 +67,7 @@ public class SentryMovement : MonoBehaviour
 
 
         sameJumpLocation = lastJumpPoint == nextJumpPoint;
-        Vector3 controlPoint = (sameJumpLocation) ? new Vector3(transform.position.x, 30f, transform.position.z) : lastJumpPoint + new Vector3(dirToJumpPoint.x / 2, 30f, dirToJumpPoint.z / 2);
+        Vector3 controlPoint = (sameJumpLocation) ? new Vector3(transform.position.x, 50f, transform.position.z) : lastJumpPoint + new Vector3(dirToJumpPoint.x / 2, 50f, dirToJumpPoint.z / 2);
 
 
         currControlPoint = controlPoint;
@@ -136,5 +143,7 @@ public class SentryMovement : MonoBehaviour
         jointHips.localRotation = Quaternion.Euler(legsWave, 0, 0);
         jointHips.localPosition = new Vector3(0, -wave * .1f - .1f, 0);
     }
+
+    
 
 }

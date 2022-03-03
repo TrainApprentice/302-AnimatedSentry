@@ -8,14 +8,14 @@ public class SentryAttacks : MonoBehaviour
     public Transform target;
     public float currPhase = 0;
 
-    public Transform jointHips, jointLeftKnee, jointRightKnee, jointBack, jointNeck, jointEyes;
+    public Transform jointNeck;
     public Transform missileLaunchPoint;
 
     private float missileRainOffset = .2f;
     private int randMissileNum = 0;
     private SentryMovement mover;
     private TargetableObject healthManager;
-    private GameObject playerRef;
+    private PlayerMovement playerRef;
     private float cooldownToNextAttack = 3f;
     private float rainChance, missileChance, shockwaveChance;
 
@@ -23,7 +23,7 @@ public class SentryAttacks : MonoBehaviour
     {
         target = FindObjectOfType<PlayerMovement>().transform;
         mover = GetComponent<SentryMovement>();
-        playerRef = FindObjectOfType<PlayerMovement>().gameObject;
+        playerRef = FindObjectOfType<PlayerMovement>();
         healthManager = GetComponent<TargetableObject>();
     }
     private void Update()
@@ -40,7 +40,7 @@ public class SentryAttacks : MonoBehaviour
             }
         }
 
-        //if(!healthManager.isDead) RunAI();
+        if(!healthManager.isDead && !playerRef.isDead) RunAI();
     }
 
     private void RunAI()
@@ -143,5 +143,7 @@ public class SentryAttacks : MonoBehaviour
         jointNeck.localRotation = AnimMath.Ease(jointNeck.localRotation, neckGoal, .001f);
 
     }
+
+    
     
 }

@@ -19,6 +19,7 @@ public class DetachJoint : MonoBehaviour
     {
         
         rb.useGravity = true;
+        rb.constraints = RigidbodyConstraints.None;
         rb.AddRelativeForce(Vector3.up * .01f);
         hitbox.enabled = true;
         transform.SetParent(null);
@@ -28,6 +29,7 @@ public class DetachJoint : MonoBehaviour
     {
         rb.useGravity = false;
         hitbox.enabled = false;
+        rb.velocity = Vector3.zero;
         transform.SetParent(storeParent);
     }
     

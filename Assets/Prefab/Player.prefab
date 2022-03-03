@@ -294,7 +294,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &3462580773748760900
 BoxCollider:
@@ -370,7 +370,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &381081013214722044
 BoxCollider:
@@ -530,7 +530,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &6594973628900884165
 BoxCollider:
@@ -857,22 +857,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a33da30f1ff54e944889b90252d33d10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jointHips: {fileID: 0}
+  jointHips: {fileID: 7749478064513075164}
   jointHipLeft: {fileID: 7749478064740178987}
   jointHipRight: {fileID: 7749478063841514881}
   jointKneeLeft: {fileID: 7749478065241652224}
   jointKneeRight: {fileID: 7749478064935839820}
-  jointSpine: {fileID: 0}
-  jointNeck: {fileID: 0}
-  jointHairLeft: {fileID: 0}
-  jointHairRight: {fileID: 0}
-  jointShoulderLeft: {fileID: 0}
-  jointShoulderRight: {fileID: 0}
-  jointElbowLeft: {fileID: 0}
-  jointElbowRight: {fileID: 0}
-  skeletonBase: {fileID: 0}
+  jointSpine: {fileID: 7749478065576029309}
+  jointNeck: {fileID: 7749478064502139279}
+  jointHairLeft: {fileID: 7749478064692500900}
+  jointHairRight: {fileID: 7749478063741153969}
+  jointShoulderLeft: {fileID: 7749478063630997817}
+  jointShoulderRight: {fileID: 7749478064768451277}
+  jointElbowLeft: {fileID: 7749478064242543914}
+  jointElbowRight: {fileID: 7749478064711171138}
+  skeletonBase: {fileID: 3787380273595372303}
   isDead: 0
   isInvincible: 0
+  isGrounded: 1
 --- !u!143 &9215241894569471923
 CharacterController:
   m_ObjectHideFlags: 0
@@ -904,10 +905,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roundsPerSecond: 3
-  jointShoulderRight: {fileID: 7749478064768451277}
-  jointShoulderLeft: {fileID: 7749478063630997817}
-  jointNeck: {fileID: 0}
-  controller: {fileID: 0}
+  jointShoulderRight: {fileID: 8354582320215051030}
+  jointNeck: {fileID: 6354953468195620689}
+  controller: {fileID: -1571789367758446992}
   gun: {fileID: 151048906765862773}
 --- !u!54 &2201105890411804653
 Rigidbody:
@@ -1069,7 +1069,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &765417146539927726
 BoxCollider:
@@ -1307,6 +1307,7 @@ MonoBehaviour:
   target: {fileID: 0}
   wantToTarget: 1
   playerController: {fileID: 0}
+  sentryController: {fileID: 0}
 --- !u!114 &8939103651193285249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1333,7 +1334,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &8319089767550843904
 BoxCollider:
@@ -1411,7 +1412,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &4649679881112562996
 BoxCollider:
@@ -1653,7 +1654,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &3229475133178749290
 BoxCollider:
@@ -1730,7 +1731,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &3076879879423695890
 BoxCollider:
@@ -1807,7 +1808,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &936570111127296065
 BoxCollider:
@@ -1877,6 +1878,7 @@ MonoBehaviour:
   target: {fileID: 0}
   wantToTarget: 1
   playerController: {fileID: 0}
+  sentryController: {fileID: 0}
 --- !u!114 &2270803896924474207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1903,7 +1905,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &4082075039345297807
 BoxCollider:
@@ -1979,7 +1981,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &1341155730207422061
 BoxCollider:
@@ -2138,7 +2140,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &4316255351553781520
 BoxCollider:
@@ -2549,7 +2551,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &6582252816600361141
 BoxCollider:

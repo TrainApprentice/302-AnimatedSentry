@@ -86,8 +86,6 @@ public class PlayerMovement : MonoBehaviour
 
             if (pawn.collisionFlags == CollisionFlags.Below) isGrounded = true;
             
-            print("Grounded: " + isGrounded);
-            print("Flags: " + (pawn.collisionFlags == CollisionFlags.Below));
             //isGrounded = (pawn.isGrounded || transform.position.y <= -1.42f || isOnObstacle);
             bool wantsToJump = Input.GetButtonDown("Jump");
             if (isGrounded)
@@ -150,10 +148,48 @@ public class PlayerMovement : MonoBehaviour
             pawn.enabled = false;
         }
     }
-    void Restart()
+    /*
+    public void Restart()
     {
-        
+        isDead = false;
+        pawn.enabled = true;
+        foreach(DetachJoint j in playerJointDetachScripts)
+        {
+            j.Reattach();
+        }
+        jointSpine.localRotation = Quaternion.identity;
+        jointNeck.localRotation = Quaternion.identity;
+        jointHairLeft.localRotation = Quaternion.identity;
+        jointHairRight.localRotation = Quaternion.identity;
+        jointShoulderLeft.localRotation = Quaternion.Euler(90, 0, 0);
+        jointShoulderRight.localRotation = Quaternion.Euler(90, 0, 0);
+        jointElbowLeft.localRotation = Quaternion.identity;
+        jointElbowRight.localRotation = Quaternion.identity;
+        jointHipLeft.localRotation = Quaternion.identity;
+        jointHipRight.localRotation = Quaternion.identity;
+        jointKneeLeft.localRotation = Quaternion.identity;
+        jointKneeRight.localRotation = Quaternion.identity;
+        skeletonBase.localRotation = Quaternion.identity;
+
+        skeletonBase.localPosition = Vector3.zero;
+        jointHips.localPosition = Vector3.zero;
+        jointSpine.localPosition = Vector3.zero;
+        jointNeck.localPosition = new Vector3(0, .464f, 0);
+        jointShoulderLeft.localPosition = new Vector3(-.6f, .276f, 0);
+        jointShoulderRight.localPosition = new Vector3(.6f, .276f, 0);
+        jointElbowLeft.localPosition = new Vector3(-.1f, 0, .259f);
+        jointElbowRight.localPosition = new Vector3(.1f, 0, .259f);
+        jointHairLeft.localPosition = new Vector3(-.236f, .513f, -.175f);
+        jointHairRight.localPosition = new Vector3(.236f, .513f, -.175f);
+        jointHipLeft.localPosition = new Vector3(-.22f, -.341f, .102f);
+        jointHipRight.localPosition = new Vector3(.22f, -.341f, .102f);
+        jointKneeLeft.localPosition = new Vector3(0, -.35f, 0);
+        jointKneeRight.localPosition = new Vector3(0, -.35f, 0);
+
+        transform.rotation = Quaternion.identity;
+        transform.position = startPosition.position;
     }
+    */
     void WalkAnim()
     {
         walkAnimTimer += Time.deltaTime * speed;

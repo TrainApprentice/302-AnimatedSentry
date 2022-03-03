@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class EnvironmentManager : MonoBehaviour
 {
-
-    public GameObject wall1, wall2;
+    public GameObject wallbase;
+    public Transform pos1, pos2;
+    private GameObject wall1, wall2;
     public SentryAttacks sentryBase;
+
+    private void Start()
+    {
+        ResetWalls();
+    }
 
     private void Update()
     {
@@ -21,5 +27,11 @@ public class EnvironmentManager : MonoBehaviour
         if(!wall.GetComponent<Rigidbody>().useGravity) wall.GetComponent<Rigidbody>().useGravity = true;
 
         if (wall.transform.position.y < -20) Destroy(wall);
+    }
+
+    public void ResetWalls()
+    {
+        if (!wall1) wall1 = Instantiate(wallbase, pos1);
+        if (!wall2) wall2 = Instantiate(wallbase, pos2);
     }
 }
